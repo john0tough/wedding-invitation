@@ -1,0 +1,33 @@
+$mainColor: #8bb3cd;
+$enfasisColor: #194f7b;
+$secondEnfasisColor: #6e97b0;
+#page-loader {
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -ms-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+    .loading-wrapper {
+        visibility: visible;
+        opacity: 1;
+    }
+    &.disappear {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+.hd-logo {
+    .couple-title {
+        line-height: 1.1;
+        font-size: 25px;
+        margin: -3px;
+        span {
+            font-size: 40px;
+        }
+    }
+}
+
+.page-content.clearfix {
+    display: none;
+}
