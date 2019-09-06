@@ -218,6 +218,7 @@ const linkClickEvent = (event) => {
     links.forEach(link => {
         link.addEventListener('click', linkClickEvent, false);
     })
+    loadUser(assingUser);
 })();
 
 function showSection(section) {
@@ -238,3 +239,31 @@ function showSection(section) {
     }, 1000);
 
 }
+
+function loadUser(cb) {
+    const telefono = getUrlParameter('t');
+    console.log(telefono);
+    if (telefono !== undefined) {
+        fetch(`/api/invitations/telefono/${telefono}`)
+            .then(response => response.json())
+            .then(data => {
+                cb(data[0]);
+            })
+            .catch(error => console.error(error));
+    }
+}
+
+function assingUser(user) {
+    if (user !== null) {
+        const familyHome = document.querySelector('#family-home');
+        familyHome.querySelector('#apellidos').innerHTML = user.apellidos
+        familyHome.setAttribute('style', 'display: inline');
+    }
+}
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};

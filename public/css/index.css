@@ -525,7 +525,7 @@ p {
 
 .couple-title {
     font-family: 'Great Vibes', cursive;
-    font-size: 36px
+    font-size: 45px
 }
 
 @media (min-width:768px) {
@@ -570,19 +570,19 @@ p {
 
 @media (min-width:768px) {
     .page-home {
-        padding-top: 100px
+        padding-top: 70px
     }
 }
 
 @media (min-width:992px) {
     .page-home {
-        padding-top: 100px
+        padding-top: 70px
     }
 }
 
 #countdown {
     color: #fff;
-    padding-top: 20px
+    padding-top: 10px
 }
 
 @media (min-width:768px) {

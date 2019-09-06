@@ -17,7 +17,7 @@ const { Datastore } = require('@google-cloud/datastore');
 
 // [START config]
 const ds = new Datastore();
-const kind = 'Invitations';
+const kind = 'Book';
 // [END config]
 
 // Translates from Datastore's entity format to
@@ -104,35 +104,6 @@ function list(limit, token, cb) {
         cb(null, entities.map(fromDatastore), hasMore);
     });
 }
-
-function filter(prop, val, cb) {
-    const q = ds
-        .createQuery([kind])
-        .filter(prop, '=', val);
-
-    // ds.runQuery(q, (err, entities, nextQuery) => {
-    //     if (err) {
-    //         cb(err);
-    //         return;
-    //     }
-    //     const hasMore =
-    //         nextQuery.moreResults !== Datastore.NO_MORE_RESULTS ?
-    //         nextQuery.endCursor :
-    //         false;
-    //     cb(null, entities.map(fromDatastore), hasMore);
-    // });
-    ds.runQuery(q, (err, entities, nextQuery) => {
-        if (err) {
-            cb(err);
-            return;
-        }
-        const hasMore =
-            nextQuery.moreResults !== Datastore.NO_MORE_RESULTS ?
-            nextQuery.endCursor :
-            false;
-        cb(null, entities.map(fromDatastore));
-    });
-}
 // [END list]
 
 // Creates a new book or updates an existing book with new data. The provided
@@ -149,7 +120,7 @@ function update(id, data, cb) {
 
     const entity = {
         key: key,
-        data: toDatastore(data, ['nombre']),
+        data: toDatastore(data, ['description']),
     };
 
     ds.save(entity, err => {
@@ -192,6 +163,5 @@ module.exports = {
     update,
     delete: _delete,
     list,
-    filter
 };
 // [END exports]

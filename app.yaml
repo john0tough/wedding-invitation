@@ -1,4 +1,4 @@
-#	Copyright 2018, Google LLC.
+# Copyright 2018, Google LLC.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -11,19 +11,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# [START runtime]
 runtime: nodejs10
-# [END runtime]
 handlers:
   - url: /api/.*
     secure: always
     redirect_http_response_code: 301
     script: auto
-
   - url: /
     static_files: public/index.html
-    upload: public/index.html
-  
+    upload: public/index.html    
   - url: /*
     static_dir: public
-  

@@ -1,4 +1,4 @@
-// Copyright 2018, Google LLC.
+// Copyright 2017, Google, Inc.
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,40 +13,44 @@
 
 'use strict';
 
+const path = require('path');
 const express = require('express');
+const config = require('./config');
+
 const app = express();
-const model = require('./invitations/model-datastore');
 
-app.use(express.static('public'))
+app.disable('etag');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+app.set('trust proxy', true);
 
-app.get('/api/helloo', (req, res) => {
-    res.status(200).send('Hello, world!');
+// Books
+app.use('/books', require('./books/crud'));
+app.use('/api/books', require('./books/api'));
+app.use('/api/invitations', require('./invitations/api'));
+app.use(express.static('public'));
+// Redirect root to /books
+// app.get('/', (req, res) => {
+//   res.redirect('/books');
+// });
+
+// Basic 404 handler
+app.use((req, res) => {
+    res.status(404).send('Not Found');
 });
 
-app.post('/api/add', (req, res, next) => {
-    const data = req.body;
-    model.create(data, (err, savedData) => {
-        if (err) {
-            next(err);
-            return;
-        }
-        res.redirect(`api/add/${savedData.id}`);
-    });
-});
-
-app.get('/api/add/:test', (req, res, next) => {
-
-    // model.create(data, (err, savedData) => {
-    //     if (err) {
-    //         next(err);
-    //         return;
-    //     }
-    //     res.redirect(`${req.baseUrl}/${savedData.id}`);
-    // });
+// Basic error handler
+app.use((err, req, res) => {
+    /* jshint unused:false */
+    console.error(err);
+    // If our routes specified a specific response, then send that. Otherwise,
+    // send a generic message so as not to leak anything.
+    res.status(500).send(err.response || 'Something broke!');
 });
 
 if (module === require.main) {
-    const server = app.listen(process.env.PORT || 8080, () => {
+    // Start the server
+    const server = app.listen(config.get('PORT'), () => {
         const port = server.address().port;
         console.log(`App listening on port ${port}`);
     });
