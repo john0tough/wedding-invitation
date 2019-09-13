@@ -28,16 +28,16 @@ router.use(bodyParser.json());
  * Retrieve a page of books (up to ten at a time).
  */
 router.get('/', (req, res, next) => {
-  model.list(10, req.query.pageToken, (err, entities, cursor) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.json({
-      items: entities,
-      nextPageToken: cursor,
+    model.list(10, req.query.pageToken, (err, entities, cursor) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        res.json({
+            items: entities,
+            nextPageToken: cursor,
+        });
     });
-  });
 });
 
 /**
@@ -46,13 +46,13 @@ router.get('/', (req, res, next) => {
  * Create a new book.
  */
 router.post('/', (req, res, next) => {
-  model.create(req.body, (err, entity) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.json(entity);
-  });
+    model.create(req.body, (err, entity) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        res.json(entity);
+    });
 });
 
 /**
@@ -61,13 +61,13 @@ router.post('/', (req, res, next) => {
  * Retrieve a book.
  */
 router.get('/:book', (req, res, next) => {
-  model.read(req.params.book, (err, entity) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.json(entity);
-  });
+    model.read(req.params.book, (err, entity) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        res.json(entity);
+    });
 });
 
 /**
@@ -76,13 +76,14 @@ router.get('/:book', (req, res, next) => {
  * Update a book.
  */
 router.put('/:book', (req, res, next) => {
-  model.update(req.params.book, req.body, (err, entity) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.json(entity);
-  });
+    console.log(req.body);
+    model.update(req.params.book, req.body, (err, entity) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        res.json(entity);
+    });
 });
 
 /**
@@ -91,26 +92,26 @@ router.put('/:book', (req, res, next) => {
  * Delete a book.
  */
 router.delete('/:book', (req, res, next) => {
-  model.delete(req.params.book, err => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.status(200).send('OK');
-  });
+    model.delete(req.params.book, err => {
+        if (err) {
+            next(err);
+            return;
+        }
+        res.status(200).send('OK');
+    });
 });
 
 /**
  * Errors on "/api/books/*" routes.
  */
 router.use((err, req, res, next) => {
-  // Format error and forward to generic error handler for logging and
-  // responding to the request
-  err.response = {
-    message: err.message,
-    internalCode: err.code,
-  };
-  next(err);
+    // Format error and forward to generic error handler for logging and
+    // responding to the request
+    err.response = {
+        message: err.message,
+        internalCode: err.code,
+    };
+    next(err);
 });
 
 module.exports = router;

@@ -81,8 +81,8 @@
                             <ul class="nav navbar-nav hd-list-menu clearfix">
                                 <li>
                                     <a class="link" href="#section-1">
-                                        <span class="link-title">La pareja</span>
-                                        <span class="link-subtitle">Conoce a los novios</span>
+                                        <span class="link-title">Los Novios</span>
+                                        <span class="link-subtitle">Nuestros votos</span>
                                     </a>
                                 </li>
                                 <li>
@@ -117,13 +117,13 @@
                             <div class="text-center">
                                 <span class="couple-title">Familia <span id="apellidos">Garcia</span></span>
                                 <br>
-                                <p class="countdown-title countdown-title1" style="padding: 0 10px;">
-                                    ¡Es un placer para nosotros contar con su precencia en nuestro gran día!
+                                <p style="text-transform: uppercase;" class="countdown-title countdown-title1" style="padding: 0 10px;">
+                                    ¡Sería un gran honor para nosotros contar con su presencia en nuestro gran día!
                                 </p>
                             </div>
                         </div>
                         <div class="col-xs-8 col-xs-offset-2">
-                            <p class="text-center">Para descargar su invitacion<br> haz clic <a href="#">Aquí</a></p>
+                            <p style="text-transform: uppercase;" class="text-center">Para descargar su invitacion<br> haz clic <a class="link" href="#section-3">Aquí</a></p>
                         </div>
                     </div>
 
@@ -152,7 +152,7 @@
                             </h2>
                             <div class="row">
                                 <div class="col-xs-8 col-xs-offset-2">
-                                    <div class="text-center">Solo faltan:</div>
+                                    <div class="text-center" style="text-transform: uppercase;">Solo faltan:</div>
                                 </div>
                             </div>
                             <!-- /countdown title top -->
@@ -400,81 +400,93 @@
                     <div class="row">
                         <div class="col-xs-10 col-xs-offset-1">
                             <!-- page title -->
-                            <h2 class="title1 couple-title1 title1-border">Rsvp</h2>
+                            <h2 class="title1 couple-title1 title1-border">Invitaciones</h2>
+                            <div class="row" id="asistenciaNoUser">
+                                <div class="col-sm-12">
+                                    <div class="page-intro">
+                                        <p>
+                                            Pronto recibiras instrucciones para poder descargar tu invitación
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- /page title -->
-                            <div class="row">
+                            <div class="row" id="confirmarAsistencia" hidden>
                                 <!-- RSVP -->
                                 <div class="col-sm-4 rsvp-text">
-                                    <h3 class="title4">Please fll our RSVP Form</h3>
-                                    <p>Kindly respond by March 28, 2016. We look forward to celebrating with you!</p>
+                                    <h3 class="title4">Confirmar asistencia</h3>
+                                    <p>Te invitamos confirmar antes del 01/nov/2019, una vez confirmada la asistencia podras descargar tu invitación</p>
                                 </div>
                                 <div class="col-sm-8">
 
                                     <!-- Contact Form -->
-                                    <form id="contactForm" novalidate="novalidate">
+                                    <form id="contactForm" method="PUT" action="/api/invitations">
                                         <!-- Form Field -->
                                         <div class="form-group">
-                                            <label for="name">Your name</label>
-                                            <input type="text" id="name" name="name" class="form-control required" placeholder="Name">
+                                            <label for="name">Nombre</label>
+                                            <p id="nombreInvitado"></p>
+                                            <!-- <input type="text" id="name" name="name" class="form-control required" placeholder="Name"> -->
                                         </div>
                                         <!-- /Form Field -->
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <!-- item -->
                                                 <div class="form-group">
-                                                    <label for="email">Your Email</label>
-                                                    <input type="email" id="email" name="email" class="form-control required" placeholder="Email">
+                                                    <label for="email">Teléfono</label>
+                                                    <!-- <input type="email" id="email" name="email" class="form-control required" placeholder="Email"> -->
+                                                    <p id="telefono"></p>
                                                 </div>
                                                 <!-- /item -->
                                             </div>
                                             <div class="col-md-6">
                                                 <!-- item -->
                                                 <div class="form-group">
-                                                    <label for="guests">How many guests?</label>
-                                                    <input type="text" class="form-control" name="guests" id="guests" placeholder="Number of Guests" required="">
+                                                    <label for="guests">Número de invitados</label>
+                                                    <!-- <input type="text" class="form-control" name="guests" id="guests" placeholder="Number of Guests" required=""> -->
+                                                    <p id="numeroInvitados"></p>
                                                 </div>
                                                 <!-- /item -->
                                             </div>
                                         </div>
                                         <!-- item -->
                                         <div class="form-group">
-                                            <label for="attending">I am attending:</label>
+                                            <label for="attending">Confirmar:</label>
                                             <select name="attending" id="attending" class="form-control">
-                                                     <option value="All Events">All Events</option>
-                                                     <option value="The Ceremony">The Ceremony</option>
-                                                     <option value="The Party">The Party</option>
-                                                 </select>
+                                                <option value="true">Si asistiré</option>
+                                                <option value="false">No me sera posible asistir</option>
+                                            </select>
+                                            <input type="hidden" name="id" value="" id="idUser">
                                         </div>
                                         <!-- /item -->
                                         <!-- Form Field -->
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label for="message">Message (optional):</label>
                                             <textarea class="form-control required" id="message" name="message" placeholder="Message"></textarea>
-                                        </div>
+                                        </div> -->
                                         <!-- /Form Field -->
                                         <!-- Form Field -->
                                         <div class="form-group form-send">
-                                            <button type="submit" value="" class="btn btn-1c"><span class="fa fa-paper-plane"> &nbsp;</span>send</button>
+                                            <button type="submit" value="" class="btn btn-1c"><span class="fa fa-paper-plane"> &nbsp;</span>Enviar</button>
                                             <!--<input type="submit" value="Send" class="btn btn-1c"/>-->
                                         </div>
                                         <!-- /Form Field -->
                                     </form>
                                     <!-- / Contact form -->
-                                    <!-- Form - Success Message -->
-                                    <div id="contactSuccess" class="contact-feedback">Your message has been sent!</div>
-                                    <!-- /Form - Sucess Message -->
-                                    <!-- Form - Success Message -->
-                                    <div id="contactSending" class="contact-feedback saving">Sending your message <span>.</span><span>.</span><span>.</span></div>
-                                    <!-- /Form - Sucess Message -->
-                                    <!-- Form - Error Message -->
-                                    <div id="contactError" class="contact-feedback">Error</div>
-                                    <!-- /form - Error Message -->
-
-                                    <div class="form">
-                                    </div>
                                 </div>
                                 <!-- /RSVP -->
+
                             </div>
+                            <div class="row" id="asistenciaConfirmada" hidden>
+                                <div class="col-sm-12 form-send">
+                                    <button type="submit" value="" class="btn btn-1c"><span class="fa fa-paper-plane"> &nbsp;</span>Descargar Invitación</button>
+                                </div>
+                            </div>
+                            <div class="row" id="asistenciaRechazada" hidden>
+                                <div class="col-sm-12">
+                                    <p>Gracias</p>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>

@@ -209,17 +209,37 @@ const linkClickEvent = (event) => {
     const section = event.currentTarget.href.split('#')[1];
     showSection(section);
 };
-(function() {
-    setTimeout(function() {
-        document.querySelector('#page-loader').classList.toggle('disappear');
-    }, 1000);
+const submitEvent = (event) => {
+        event.preventDefault();
+        const formData = {
+            id: event.target.elements[1].value,
+            confirmado: event.target.elements[0].value,
+        };
+        fetch('/api/invitations', {
+                method: 'PUT', // or 'PUT'
+                body: JSON.stringify(formData), // data can be `string` or {object}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                asistencia(data)
+            })
+            .catch(error => console.error(error));
+    }
+    (function() {
+        setTimeout(function() {
+            document.querySelector('#page-loader').classList.toggle('disappear');
+        }, 1000);
 
-    const links = document.querySelectorAll('.link');
-    links.forEach(link => {
-        link.addEventListener('click', linkClickEvent, false);
-    })
-    loadUser(assingUser);
-})();
+        const links = document.querySelectorAll('.link');
+        links.forEach(link => {
+            link.addEventListener('click', linkClickEvent, false);
+        })
+        loadUser(assingUser);
+        document.querySelector('#contactForm').addEventListener('submit', submitEvent);
+    })();
 
 function showSection(section) {
     const loader = document.querySelector('#page-loader').classList;
@@ -242,7 +262,6 @@ function showSection(section) {
 
 function loadUser(cb) {
     const telefono = getUrlParameter('t');
-    console.log(telefono);
     if (telefono !== undefined) {
         fetch(`/api/invitations/telefono/${telefono}`)
             .then(response => response.json())
@@ -255,10 +274,18 @@ function loadUser(cb) {
 
 function assingUser(user) {
     if (user !== null) {
+        console.log(user);
         const familyHome = document.querySelector('#family-home');
         familyHome.querySelector('#apellidos').innerHTML = user.apellidos
         familyHome.setAttribute('style', 'display: inline');
+
+        document.querySelector('#nombreInvitado').innerHTML = user.nombre + '' + user.apellidos;
+        document.querySelector('#telefono').innerHTML = user.telefono;
+        document.querySelector('#numeroInvitados').innerHTML = user.invitados;
+        document.querySelector('#asistenciaNoUser').toggleAttribute('hidden');
+        asistencia(user);
     }
+
 }
 
 function getUrlParameter(name) {
@@ -267,3 +294,25 @@ function getUrlParameter(name) {
     var results = regex.exec(location.search);
     return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
+
+function asistencia(user) {
+    document.querySelector('#idUser').value = user.id;
+    console.log(user);
+    switch (user.confirmado) {
+        case '-':
+            document.querySelector('#confirmarAsistencia').removeAttribute('hidden');
+            document.querySelector('#asistenciaRechazada').setAttribute('hidden', true);
+            document.querySelector('#asistenciaConfirmada').setAttribute('hidden', true);
+            break;
+        case 'false':
+            document.querySelector('#asistenciaRechazada').removeAttribute('hidden');
+            document.querySelector('#confirmarAsistencia').setAttribute('hidden', true);
+            document.querySelector('#asistenciaConfirmada').setAttribute('hidden', true);
+            break;
+        case 'true':
+            document.querySelector('#asistenciaRechazada').setAttribute('hidden', true);
+            document.querySelector('#confirmarAsistencia').setAttribute('hidden', true);
+            document.querySelector('#asistenciaConfirmada').removeAttribute('hidden');
+            break;
+    }
+}

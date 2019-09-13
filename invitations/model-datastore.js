@@ -88,9 +88,7 @@ function toDatastore(obj, nonIndexed) {
 function list(limit, token, cb) {
     const q = ds
         .createQuery([kind])
-        .limit(limit)
-        // .order('title')
-        .start(token);
+        .filter('activo', '=', 'true');
 
     ds.runQuery(q, (err, entities, nextQuery) => {
         if (err) {
@@ -108,19 +106,8 @@ function list(limit, token, cb) {
 function filter(prop, val, cb) {
     const q = ds
         .createQuery([kind])
+        .filter('activo', '=', 'true')
         .filter(prop, '=', val);
-
-    // ds.runQuery(q, (err, entities, nextQuery) => {
-    //     if (err) {
-    //         cb(err);
-    //         return;
-    //     }
-    //     const hasMore =
-    //         nextQuery.moreResults !== Datastore.NO_MORE_RESULTS ?
-    //         nextQuery.endCursor :
-    //         false;
-    //     cb(null, entities.map(fromDatastore), hasMore);
-    // });
     ds.runQuery(q, (err, entities, nextQuery) => {
         if (err) {
             cb(err);

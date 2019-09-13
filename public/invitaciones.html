@@ -5,37 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Captura de invitaciones</title>
 </head>
 
 <body>
+    <h3>Captura de invitaciones</h3>
     <form action="/api/invitations/" method="POST">
         <label for="nombre">
-            nombre
+            Nombre
             <input type="text" type="text" name="nombre" id="nombre">
         </label>
-        <br/>
+        <br/><br/>
         <label for="apellidos">
-            apellidos
+            Apellidos
             <input type="text" type="text" name="apellidos" id="apellidos">
         </label>
-        <br/>
+        <br/><br/>
+        <label for="esFamilia">
+            Es una Familia
+            <input type="checkbox"  name="esFamilia" id="esFamilia"  value="true">
+        </label>
+        <br/><br/>
         <label for="telefono">
-            telefono
+            Telefono
             <input type="text" type="text" name="telefono" id="telefono">
         </label>
-        <br/>
+        <br/><br/>
         <label for="invitados">
-            invitados
+            Numero de invitados
             <input type="text" type="text" name="invitados" id="invitados">
         </label>
+        <br/><br/>
+        <input type="hidden" name="confirmado" id="confirmado" value="-">
+        <input type="hidden" name="esFamilia" value="false">
+        <input type="hidden" name="activo" value="true">
         <br/>
-        <label for="confirmado">
-            confirmado
-            <input type="text" type="text" name="confirmado" id="confirmado">
-        </label>
-        <br/>
-        <input type="submit" value="send">
+        <input type="submit" value="Enviar">
     </form>
 </body>
 

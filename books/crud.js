@@ -104,8 +104,11 @@ router.get('/:book/edit', (req, res, next) => {
  * Update a book.
  */
 router.post('/:book/edit', (req, res, next) => {
-    const data = req.body;
-    console.log(req, res);
+    // const data = req.body;
+    const data = {
+        description: 'un cambio'
+    };
+
     model.update(req.params.book, data, (err, savedData) => {
         if (err) {
             next(err);
